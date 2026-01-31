@@ -153,8 +153,7 @@ namespace Jellyfin.Plugin.OpenLibrary.Providers
         {
             var searchUrl = $"https://openlibrary.org/search/authors.json?q={HttpUtility.UrlEncode(name)}&limit=10";
 
-            using var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(15);
+            using var httpClient = _httpClientFactory.CreateClient(PluginServiceRegistrator.OpenLibraryHttpClientName);
 
             try
             {
@@ -185,8 +184,7 @@ namespace Jellyfin.Plugin.OpenLibrary.Providers
         {
             var authorUrl = $"https://openlibrary.org/authors/{authorKey}.json";
 
-            using var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(15);
+            using var httpClient = _httpClientFactory.CreateClient(PluginServiceRegistrator.OpenLibraryHttpClientName);
 
             try
             {

@@ -92,8 +92,7 @@ namespace Jellyfin.Plugin.OpenLibrary.Providers
         {
             var searchUrl = $"https://openlibrary.org/search.json?title={HttpUtility.UrlEncode(title)}&limit=5";
 
-            using var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(15);
+            using var httpClient = _httpClientFactory.CreateClient(PluginServiceRegistrator.OpenLibraryHttpClientName);
 
             try
             {
@@ -179,8 +178,7 @@ namespace Jellyfin.Plugin.OpenLibrary.Providers
 
         private async Task<Book?> TryGetBookFromUrl(string url, string originalTitle, string key, CancellationToken cancellationToken)
         {
-            using var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(15);
+            using var httpClient = _httpClientFactory.CreateClient(PluginServiceRegistrator.OpenLibraryHttpClientName);
 
             try
             {
@@ -397,8 +395,7 @@ namespace Jellyfin.Plugin.OpenLibrary.Providers
             var authorUrl = $"https://openlibrary.org/authors/{authorKey}.json";
             _logger.LogInformation("Fetching OpenLibrary author info: {Url}", authorUrl);
 
-            using var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(15);
+            using var httpClient = _httpClientFactory.CreateClient(PluginServiceRegistrator.OpenLibraryHttpClientName);
 
             try
             {
