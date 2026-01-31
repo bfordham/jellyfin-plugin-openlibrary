@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>OpenLibrary</title>
+</head>
+<body>
+    <div id="OpenLibraryConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-button">
+        <div data-role="content">
+            <div class="content-primary">
+                <form id="OpenLibraryConfigForm">
+                    <div class="verticalSection">
+                        <h2>OpenLibrary Metadata Provider</h2>
+                        <p>This plugin provides metadata for books and authors from OpenLibrary.org.</p>
+                        <p>No configuration is required. The plugin will automatically fetch metadata from OpenLibrary when you scan your book libraries.</p>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var OpenLibraryConfig = {
+                pluginUniqueId: 'a4df60c5-6ab4-412a-8f79-2cab93fb2bc5'
+            };
+
+            document.querySelector('#OpenLibraryConfigPage')
+                .addEventListener('pageshow', function() {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(OpenLibraryConfig.pluginUniqueId).then(function (config) {
+                        Dashboard.hideLoadingMsg();
+                    });
+                });
+
+            document.querySelector('#OpenLibraryConfigForm')
+                .addEventListener('submit', function(e) {
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(OpenLibraryConfig.pluginUniqueId).then(function (config) {
+                    ApiClient.updatePluginConfiguration(OpenLibraryConfig.pluginUniqueId, config).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    });
+                });
+
+                e.preventDefault();
+                return false;
+            });
+        </script>
+    </div>
+</body>
+</html>
